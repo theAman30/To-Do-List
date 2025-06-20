@@ -3,7 +3,7 @@ const listContainer = document.getElementById("list-container");
 
 function addTask() {
   if (inputBox.value === "") {
-    alert("You must have to write something");
+    document.getElementById("custom-alert").classList.remove("hidden");
   } else {
     let li = document.createElement("li");
     li.innerHTML = inputBox.value;
@@ -15,6 +15,10 @@ function addTask() {
   inputBox.value = "";
   saveData();
 }
+// Handle custom modal close
+document.getElementById("close-alert").addEventListener("click", function () {
+  document.getElementById("custom-alert").classList.add("hidden");
+});
 
 listContainer.addEventListener(
   "click",
@@ -29,7 +33,11 @@ listContainer.addEventListener(
   },
   false
 );
-
+inputBox.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    addTask();
+  }
+});
 function saveData() {
   localStorage.setItem("data", listContainer.innerHTML);
 }
@@ -37,5 +45,4 @@ function saveData() {
 function showTasks() {
   listContainer.innerHTML = localStorage.getItem("data");
 }
-
 showTasks();
